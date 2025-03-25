@@ -36,26 +36,23 @@ export class SupabaseStorageService {
 
     async getUserByInviteLink(link: string): Promise<number | null> {
         const { data, error } = await supabase
-            .from('invite_links')
-            .select('user_id')
-            .eq('link_id', link)
+            .from('users')
+            .select('id')
+            .eq('invite_link', link)
             .single();
 
         if (error || !data) {
             return null;
         }
 
-        return data.user_id;
+        return data.id;
     }
 
     async saveInviteLink(userId: number, link: string): Promise<void> {
         const { error } = await supabase
-            .from('invite_links')
-            .upsert({
-                user_id: userId,
-                link_id: link,
-                created_at: new Date().toISOString()
-            }, { onConflict: 'link_id' });
+            .from('users')
+            .update({ invite_link: link })
+            .eq('id', userId);
 
         if (error) {
             console.error('Failed to save invite link:', error);
@@ -64,14 +61,11 @@ export class SupabaseStorageService {
     }
 
     async trackInvite(inviterId: number, inviteeId: number): Promise<void> {
-        const timestamp = new Date().toISOString();
-
         const { error: inviteError } = await supabase
             .from('invites')
             .upsert({
                 inviter_id: inviterId,
-                invitee_id: inviteeId,
-                timestamp
+                invitee_id: inviteeId
             }, { onConflict: 'invitee_id' });
 
         if (inviteError) {
@@ -81,7 +75,7 @@ export class SupabaseStorageService {
 
         const inviter = await this.getUser(inviterId);
         if (inviter) {
-            inviter.inviteCount = (inviter.inviteCount || 0) + 1;
+            inviter.invite_count = (inviter.invite_count || 0) + 1;
             await this.saveUser(inviter);
         }
     }
@@ -100,7 +94,7 @@ export class SupabaseStorageService {
         return {
             inviterId: data.inviter_id,
             inviteeId: data.invitee_id,
-            timestamp: new Date(data.timestamp).getTime()
+            create_at: new Date(data.timestamp).getTime()
         };
     }
 
@@ -108,7 +102,7 @@ export class SupabaseStorageService {
         const { data, error } = await supabase
             .from('users')
             .select('*')
-            .order('inviteCount', { ascending: false })
+            .order('invite_count', { ascending: false })
             .limit(limit);
 
         if (error || !data) {
@@ -121,8 +115,8 @@ export class SupabaseStorageService {
     async getUserRank(userId: number): Promise<number> {
         const { data, error } = await supabase
             .from('users')
-            .select('id, inviteCount')
-            .order('inviteCount', { ascending: false });
+            .select('id, invite_count')
+            .order('invite_count', { ascending: false });
 
         if (error || !data) {
             return 0;

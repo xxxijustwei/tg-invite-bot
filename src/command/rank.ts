@@ -19,9 +19,9 @@ export const RankCommand = async (ctx: Context) => {
     const rankEntries: RankEntry[] = topUsers.map((user, index) => ({
         userId: user.id,
         username: user.username,
-        firstName: user.firstName,
-        lastName: user.lastName,
-        inviteCount: user.inviteCount,
+        first_name: user.first_name,
+        last_name: user.last_name,
+        invite_count: user.invite_count,
         rank: index + 1
     }));
 
@@ -29,10 +29,10 @@ export const RankCommand = async (ctx: Context) => {
 
     rankEntries.forEach(entry => {
         const medal = entry.rank === 1 ? "🥇" : entry.rank === 2 ? "🥈" : entry.rank === 3 ? "🥉" : `${entry.rank}.`;
-        const name = `${entry.firstName} ${entry.lastName || ""}`.trim();
+        const name = `${entry.first_name} ${entry.last_name || ""}`.trim();
         const username = entry.username ? ` (@${entry.username})` : "";
 
-        message += `${medal} ${name}${username}: <b>${entry.inviteCount}</b> friends\n`;
+        message += `${medal} ${name}${username}: <b>${entry.invite_count}</b> friends\n`;
     });
 
     message += "\nUse /mylink to get your invitation link";

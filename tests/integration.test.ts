@@ -8,9 +8,9 @@ describe("邀请流程集成测试", () => {
     let storage: StorageService;
 
     // 测试数据
-    const alice: User = { id: 101, firstName: "Alice", inviteCount: 0 };
-    const bob: User = { id: 102, firstName: "Bob", inviteCount: 0 };
-    const charlie: User = { id: 103, firstName: "Charlie", inviteCount: 0 };
+    const alice: User = { id: 101, first_name: "Alice", invite_count: 0 };
+    const bob: User = { id: 102, first_name: "Bob", invite_count: 0 };
+    const charlie: User = { id: 103, first_name: "Charlie", invite_count: 0 };
 
     // 每个测试前初始化数据
     beforeEach(async () => {
@@ -46,7 +46,7 @@ describe("邀请流程集成测试", () => {
 
         // 3. 用户 Dave 通过 Alice 的链接加入
         const daveId = 201;
-        const dave: User = { id: daveId, firstName: "Dave", inviteCount: 0 };
+        const dave: User = { id: daveId, first_name: "Dave", invite_count: 0 };
         await storage.saveUser(dave);
 
         // 获取链接所有者并记录邀请
@@ -57,14 +57,14 @@ describe("邀请流程集成测试", () => {
 
         // 4. 用户 Eve 通过 Alice 的链接加入
         const eveId = 202;
-        const eve: User = { id: eveId, firstName: "Eve", inviteCount: 0 };
+        const eve: User = { id: eveId, first_name: "Eve", invite_count: 0 };
         await storage.saveUser(eve);
 
         await storage.trackInvite(alice.id, eve.id);
 
         // 5. 用户 Frank 通过 Bob 的链接加入
         const frankId = 203;
-        const frank: User = { id: frankId, firstName: "Frank", inviteCount: 0 };
+        const frank: User = { id: frankId, first_name: "Frank", invite_count: 0 };
         await storage.saveUser(frank);
 
         const bobLink = await storage.getUserByInviteLink(bobLinkId);
@@ -74,13 +74,13 @@ describe("邀请流程集成测试", () => {
 
         // 验证计数和排名
         const updatedAlice = await storage.getUser(alice.id);
-        expect(updatedAlice?.inviteCount).toBe(2);
+        expect(updatedAlice?.invite_count).toBe(2);
 
         const updatedBob = await storage.getUser(bob.id);
-        expect(updatedBob?.inviteCount).toBe(1);
+        expect(updatedBob?.invite_count).toBe(1);
 
         const updatedCharlie = await storage.getUser(charlie.id);
-        expect(updatedCharlie?.inviteCount).toBe(0);
+        expect(updatedCharlie?.invite_count).toBe(0);
 
         // 6. 获取排行榜
         const topUsers = await storage.getTopInviters();
@@ -88,12 +88,12 @@ describe("邀请流程集成测试", () => {
         // Alice 应该排在第一位
         expect(topUsers.length).toBeGreaterThan(0);
         expect(topUsers[0]!.id).toBe(alice.id);
-        expect(topUsers[0]!.inviteCount).toBe(2);
+        expect(topUsers[0]!.invite_count).toBe(2);
 
         // Bob 应该排在第二位
         expect(topUsers.length).toBeGreaterThan(1);
         expect(topUsers[1]!.id).toBe(bob.id);
-        expect(topUsers[1]!.inviteCount).toBe(1);
+        expect(topUsers[1]!.invite_count).toBe(1);
 
         // 测试指定限制数量的排行榜
         const top1Users = await storage.getTopInviters(1);
@@ -161,7 +161,7 @@ describe("邀请流程集成测试", () => {
         // 测试邀请不存在的用户(inviter存在但invitee不在数据库中)
         await storage.trackInvite(alice.id, 9999);
         const updatedAlice = await storage.getUser(alice.id);
-        expect(updatedAlice!.inviteCount).toBe(3); // 应该从2增加到3
+        expect(updatedAlice!.invite_count).toBe(3); // 应该从2增加到3
 
         const inviteData = await storage.getInviteDataForUser(9999);
         expect(inviteData).not.toBeNull();

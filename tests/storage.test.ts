@@ -8,9 +8,9 @@ describe("存储服务测试", () => {
 
     // 测试用户数据
     const testUsers: User[] = [
-        { id: 101, firstName: "Alice", inviteCount: 5 },
-        { id: 102, firstName: "Bob", inviteCount: 3 },
-        { id: 103, firstName: "Charlie", inviteCount: 8 },
+        { id: 101, first_name: "Alice", invite_count: 5 },
+        { id: 102, first_name: "Bob", invite_count: 3 },
+        { id: 103, first_name: "Charlie", invite_count: 8 },
     ];
 
     // 每个测试前，创建一个新的存储实例并清空数据
@@ -28,8 +28,8 @@ describe("存储服务测试", () => {
         const user = await storage.getUser(101);
         expect(user).toBeDefined();
         expect(user?.id).toBe(101);
-        expect(user?.firstName).toBe("Alice");
-        expect(user?.inviteCount).toBe(5);
+        expect(user?.first_name).toBe("Alice");
+        expect(user?.invite_count).toBe(5);
     });
 
     test("对于不存在的用户应返回 null", async () => {
@@ -53,14 +53,14 @@ describe("存储服务测试", () => {
 
         // 记录邀请前获取邀请者初始计数
         const aliceBefore = await storage.getUser(inviterId);
-        const initialCount = aliceBefore?.inviteCount || 0;
+        const initialCount = aliceBefore?.invite_count || 0;
 
         // 记录邀请
         await storage.trackInvite(inviterId, inviteeId);
 
         // 检查邀请者计数增加
         const aliceAfter = await storage.getUser(inviterId);
-        expect(aliceAfter?.inviteCount).toBe(initialCount + 1);
+        expect(aliceAfter?.invite_count).toBe(initialCount + 1);
 
         // 检查邀请记录存在
         const invite = await storage.getInviteDataForUser(inviteeId);

@@ -1,8 +1,7 @@
-import { GrammyError, InlineKeyboard, type Context } from "grammy";
+import { GrammyError, type Context } from "grammy";
 import { isInChannel } from "../utils/lib";
 import { bot } from "..";
 import { storage } from "../bot";
-import { config } from "../config";
 import { createInviteUrl, generateInviteLink } from "../utils/linkGenerator";
 
 export const LinkCommand = async (ctx: Context) => {
@@ -22,15 +21,15 @@ export const LinkCommand = async (ctx: Context) => {
     }
 
     // Generate invite link if it doesn't exist
-    if (!user.inviteLink) {
+    if (!user.invite_link) {
         const linkId = generateInviteLink();
-        user.inviteLink = linkId;
+        user.invite_link = linkId;
         await storage.saveUser(user);
         await storage.saveInviteLink(userId, linkId);
     }
 
     const botInfo = await bot.api.getMe();
-    const inviteUrl = createInviteUrl(botInfo.username, user.inviteLink);
+    const inviteUrl = createInviteUrl(botInfo.username, user.invite_link);
 
     // Send message visible only to the requesting user
     try {

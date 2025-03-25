@@ -33,7 +33,7 @@ export const ChatMemberListener = async (ctx: Context) => {
                     try {
                         await bot.api.sendMessage(
                             inviterId,
-                            `${ctx.chatMember.new_chat_member.user.first_name} 已成功通过您的邀请链接加入频道！您目前已邀请了 ${inviter.inviteCount} 位好友。`
+                            `${ctx.chatMember.new_chat_member.user.first_name} has successfully joined via your invitation link! You have invited ${inviter.invite_count} friends so far.`
                         );
                     } catch (error) {
                         console.log(`[DEBUG] 无法通知邀请人 ${inviterId}:`, error);

@@ -1,14 +1,6 @@
-import { Hono } from "hono";
-import type { Context } from "hono";
-import { setupBot, storage, pendingJoins } from "./bot";
+import { setupBot } from "./bot";
 
-const app = new Hono();
 export let bot: Awaited<ReturnType<typeof setupBot>>;
-
-// Health check endpoint
-app.get("/", (c: Context) => {
-    return c.text("Telegram Bot is running", 200);
-});
 
 // Start polling for development
 async function startPolling() {
@@ -42,5 +34,3 @@ async function startPolling() {
 }
 
 startPolling().catch(console.error);
-
-export default app;

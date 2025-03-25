@@ -38,19 +38,11 @@
 ```sql
 CREATE TABLE users (
   id BIGINT PRIMARY KEY,
-  firstName TEXT NOT NULL,
-  lastName TEXT,
+  first_name TEXT NOT NULL,
+  last_name TEXT,
   username TEXT,
-  inviteCount INTEGER DEFAULT 0
-);
-```
-
-### 邀请链接表 (invite_links)
-```sql
-CREATE TABLE invite_links (
-  link_id TEXT PRIMARY KEY,
-  user_id BIGINT NOT NULL REFERENCES users(id),
-  created_at TIMESTAMP WITH TIME ZONE DEFAULT now()
+  invite_count INTEGER DEFAULT 0,
+  invite_link TEXT DEFAULT NULL
 );
 ```
 
@@ -59,7 +51,7 @@ CREATE TABLE invite_links (
 CREATE TABLE invites (
   invitee_id BIGINT PRIMARY KEY,
   inviter_id BIGINT NOT NULL REFERENCES users(id),
-  timestamp TIMESTAMP WITH TIME ZONE DEFAULT now()
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT now()
 );
 ```
 

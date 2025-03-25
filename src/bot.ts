@@ -24,9 +24,9 @@ export async function setupBot() {
             user = {
                 id: userId,
                 username: ctx.from.username,
-                firstName: ctx.from.first_name,
-                lastName: ctx.from.last_name,
-                inviteCount: 0
+                first_name: ctx.from.first_name,
+                last_name: ctx.from.last_name,
+                invite_count: 0
             };
             await storage.saveUser(user);
         }

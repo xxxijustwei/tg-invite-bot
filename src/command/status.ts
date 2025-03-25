@@ -19,8 +19,8 @@ export const StatusCommand = async (ctx: Context) => {
 
     await ctx.reply(
         `📊 <b>Your Invitation Statistics</b>\n\n` +
-        `👤 Name: ${user.firstName} ${user.lastName || ""}\n` +
-        `🔗 Invited: <b>${user.inviteCount}</b> friends\n` +
+        `👤 Name: ${user.first_name} ${user.last_name || ""}\n` +
+        `🔗 Invited: <b>${user.invite_count}</b> friends\n` +
         `🏆 Rank: <b>#${rank}</b>\n\n` +
         `Use /mylink to get your invitation link\n` +
         `Use /rank to view the leaderboard`,

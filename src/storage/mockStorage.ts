@@ -26,14 +26,14 @@ export class MockStorageService implements StorageService {
         const inviteData: InviteData = {
             inviterId,
             inviteeId,
-            timestamp: Date.now(),
+            create_at: Date.now(),
         };
 
         inviteStore.set(`invite:${inviteeId}`, inviteData);
 
         const inviter = await this.getUser(inviterId);
         if (inviter) {
-            inviter.inviteCount += 1;
+            inviter.invite_count += 1;
             await this.saveUser(inviter);
         }
     }
@@ -46,14 +46,14 @@ export class MockStorageService implements StorageService {
         const users: User[] = Array.from(userStore.values());
 
         return users
-            .sort((a, b) => b.inviteCount - a.inviteCount)
+            .sort((a, b) => b.invite_count - a.invite_count)
             .slice(0, limit);
     }
 
     async getUserRank(userId: number): Promise<number> {
         const users = Array.from(userStore.values());
 
-        const sortedUsers = users.sort((a, b) => b.inviteCount - a.inviteCount);
+        const sortedUsers = users.sort((a, b) => b.invite_count - a.invite_count);
 
         const userPosition = sortedUsers.findIndex(u => u.id === userId);
         return userPosition === -1 ? 0 : userPosition + 1; // 1-based ranking
