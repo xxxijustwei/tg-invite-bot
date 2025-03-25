@@ -1,6 +1,8 @@
 import { GrammyError, InlineKeyboard, type Context } from "grammy";
 import { isInChannel } from "../utils/lib";
-import { bot, storage } from "..";
+import { bot } from "..";
+import { storage } from "../bot";
+import { config } from "../config";
 import { createInviteUrl, generateInviteLink } from "../utils/linkGenerator";
 
 export const LinkCommand = async (ctx: Context) => {

@@ -1,6 +1,6 @@
 import type { Context } from "grammy";
 import { isInChannel } from "../utils/lib";
-import { storage } from "..";
+import { storage } from "../bot";
 import type { RankEntry } from "../types";
 
 export const RankCommand = async (ctx: Context) => {

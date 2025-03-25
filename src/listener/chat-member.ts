@@ -1,6 +1,7 @@
 import type { Context } from "grammy";
 import { config } from "../config";
-import { bot, pendingJoins, storage } from "..";
+import { pendingJoins, storage } from "../bot";
+import { bot } from "..";
 
 export const ChatMemberListener = async (ctx: Context) => {
     if (!ctx.chatMember || !config.CHANNEL_ID) {

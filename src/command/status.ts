@@ -1,6 +1,6 @@
 import type { Context } from "grammy";
 import { isInChannel } from "../utils/lib";
-import { storage } from "..";
+import { storage } from "../bot";
 
 export const StatusCommand = async (ctx: Context) => {
     if (!ctx.from) return;

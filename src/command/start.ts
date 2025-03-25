@@ -1,5 +1,7 @@
 import { InlineKeyboard, type Context } from "grammy";
-import { bot, pendingJoins, storage } from "..";
+import { bot } from "..";
+import { pendingJoins, storage } from "../bot";
+import type { CommandContext } from "grammy";
 import { config } from "../config";
 
 export const StartCommand = async (ctx: Context) => {

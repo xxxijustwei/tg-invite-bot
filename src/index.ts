@@ -1,13 +1,9 @@
 import { Hono } from "hono";
 import type { Context } from "hono";
-import { setupBot } from "./bot";
-import { getStorageService } from "./storage";
+import { setupBot, storage, pendingJoins } from "./bot";
 
 const app = new Hono();
-export const storage = getStorageService();
 export let bot: Awaited<ReturnType<typeof setupBot>>;
-
-export const pendingJoins = new Map<number, number>();
 
 // Health check endpoint
 app.get("/", (c: Context) => {
@@ -47,7 +43,4 @@ async function startPolling() {
 
 startPolling().catch(console.error);
 
-export default {
-    port: 3001,
-    fetch: app.fetch,
-};
+export default app;

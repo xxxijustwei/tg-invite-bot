@@ -6,7 +6,10 @@ import { StartCommand } from "./command/start";
 import { LinkCommand } from "./command/link";
 import { ChatMemberListener } from "./listener/chat-member";
 import { MyChatMemberListener } from "./listener/my-chat-member";
-import { storage } from ".";
+import { getStorageService } from "./storage";
+
+export const storage = getStorageService();
+export const pendingJoins = new Map<number, number>();
 
 export async function setupBot() {
     const bot = new Bot(config.BOT_TOKEN);
