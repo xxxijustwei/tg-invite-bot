@@ -1,11 +1,15 @@
 import { InlineKeyboard, type Context } from "grammy";
 import { bot } from "..";
 import { pendingJoins, storage } from "../bot";
-import type { CommandContext } from "grammy";
 import { config } from "../config";
+import { LinkCommand } from "./link";
 
 export const StartCommand = async (ctx: Context) => {
     if (!ctx.from) return;
+
+    if (ctx.match === 'getlink') {
+        return LinkCommand(ctx);
+    }
 
     const startParam = ctx.match as string;
     if (startParam) {

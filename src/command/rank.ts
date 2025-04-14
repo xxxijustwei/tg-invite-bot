@@ -29,10 +29,9 @@ export const RankCommand = async (ctx: Context) => {
 
     rankEntries.forEach(entry => {
         const medal = entry.rank === 1 ? "🥇" : entry.rank === 2 ? "🥈" : entry.rank === 3 ? "🥉" : `${entry.rank}.`;
-        const name = `${entry.first_name} ${entry.last_name || ""}`.trim();
-        const username = entry.username ? ` (@${entry.username})` : "";
+        const username = entry.username ? ` @${entry.username}` : `user-${entry.userId}`;
 
-        message += `${medal} ${name}${username}: <b>${entry.invite_count}</b> friends\n`;
+        message += `${medal} ${username}: <b>${entry.invite_count}</b> friends\n`;
     });
 
     message += "\nUse /mylink to get your invitation link";
