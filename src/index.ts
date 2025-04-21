@@ -22,7 +22,7 @@ async function startPolling() {
     // Start polling with explicit allowed updates
     await bot.start({
         allowed_updates: ["message", "callback_query", "chat_member", "my_chat_member"],
-        drop_pending_updates: false,
+        drop_pending_updates: true,
         onStart: (botInfo) => {
             console.log(`Bot @${botInfo.username} started in polling mode!`);
             console.log("Commands:");
