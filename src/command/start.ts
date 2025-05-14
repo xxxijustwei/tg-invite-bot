@@ -50,16 +50,24 @@ export const StartCommand = async (ctx: Context) => {
                 );
             }
         } else {
-            await ctx.reply(
-                `You need to use an invitation link to join the channel`
-            );
+            try {
+                await ctx.reply(
+                    `You need to use an invitation link to join the channel`
+                );
+            } catch (error) {
+                console.error(`Failed to send message to user ${ctx.from.id}:`, error);
+            }
         }
     } else {
-        await ctx.reply(
-            `Welcome to the Invitation Statistics Bot!\n\n` +
-            `📱 Use /mylink to get your invitation link\n` +
-            `📊 Use /status to view your statistics\n` +
-            `🏆 Use /rank to view the leaderboard`
-        );
+        try {
+            await ctx.reply(
+                `Welcome to the Invitation Statistics Bot!\n\n` +
+                `📱 Use /mylink to get your invitation link\n` +
+                `📊 Use /status to view your statistics\n` +
+                `🏆 Use /rank to view the leaderboard`
+            );
+        } catch (error) {
+            console.error(`Failed to send message to user ${ctx.from.id}:`, error);
+        }
     }
 }
